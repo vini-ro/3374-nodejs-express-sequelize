@@ -55,7 +55,7 @@ class Controller {
 
 
     } catch (erro) {
-      return res.status(500).json(error.message);
+      return res.status(500).json({ erro: erro.message });
     }
   }
 }
