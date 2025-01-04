@@ -34,7 +34,7 @@ module.exports = {
           key: 'id'
         }
       },
-      dAt: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
