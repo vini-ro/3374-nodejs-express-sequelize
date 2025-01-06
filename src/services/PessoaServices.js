@@ -23,10 +23,11 @@ class PessoaServices extends Services {
     return listaPessoas;
   }
 
-  async cancelaPessoaEMatricula(estudanteId) {
-    await super.atualizaRegistro({ ativo: false }, { id: estudanteId });
-    await this.matriculaServices.atualizaRegistros({ status: 'cancelado' }, { estudante_id: estudanteId });
-    
+  async cancelaPessoaEMatriculas(estudanteId) {
+    return dataSource.sequelize.transaction(async (transacao) => {
+      await super.atualizaRegistro({ ativo: false }, { id: estudanteId }, transacao);
+      await this.matriculaServices.atualizaRegistros({ status: 'cancelado' }, { estudante_id: estudanteId }, transacao);
+    });
   }
 }
 

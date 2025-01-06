@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const dataSource = require('../database/models');
 
 class Services {
@@ -10,7 +9,7 @@ class Services {
     return dataSource[this.model].findAll();
   }
 
-  async pegaRegistrosPorEscopo(escopo) {
+  async pegaRegistrosPorEscopo(escopo, where = {}) {
     return dataSource[this.model]
       .scope(escopo)
       .findAll({ where: { ...where } });
@@ -28,11 +27,12 @@ class Services {
     return dataSource[this.model].create(dadosDoRegistro);
   }
 
-  async atualizaRegistro(dadosAtualizados, where) {
+  async atualizaRegistro(dadosAtualizados, where, transacao = {}) {
     const listadeRegistrosAtualizados = dataSource[this.model].update(
       dadosAtualizados,
       {
         where: { ...where },
+        transaction: transacao,
       }
     );
     if (listadeRegistrosAtualizados[0] === 0) {
